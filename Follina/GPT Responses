@@ -1,0 +1,68 @@
+FOLLINA POC 1 OUTPUT:
+This code is a simple HTML document with a script that appears to be attempting an exploit. The main purpose of the script is to redirect the user's browser to a specific URL, which seems to be constructed with a malicious intent. Let's break down the key components:
+<!doctype html>: This declaration defines the document type and version of HTML being used (in this case, HTML5).
+<html lang="en">: This opening tag defines the language of the document (English in this case).
+<head> and <title> tags: The head section contains meta-information about the document, and the title tag sets the title of the web page, which is displayed on the browser's title bar or tab. In this case, the title is set to "Exploit".
+<body>: This opening tag marks the beginning of the main content of the HTML document.
+<script>: The script tag is used to embed JavaScript code within the HTML document. In this case, the script contains a large block of commented out text (lines starting with //). This block of text seems to be filler and serves no functional purpose.
+window.location.href: This line of JavaScript code is used to navigate the user's browser to a new URL.
+The URL itself is constructed with what appears to be an attempt to exploit a vulnerability in the Windows operating system. The script is trying to open a specific diagnostic protocol (ms-msdt:) with specific parameters to launch the Windows calculator application (calc) and potentially execute arbitrary code.
+Keep in mind that using such exploits can be illegal and unethical. It is essential to use your programming knowledge responsibly and only for legitimate purposes, like protecting systems from vulnerabilities and making the web a safer place for everyone.
+
+
+
+
+
+
+
+
+
+
+FOLLINA POC 2 OUTPUT:
+This code is a malicious script that creates a poisoned Word file and then hosts it on a web server. Here is a step-by-step explanation of what the code does:
+Import required modules, including argparse, os, re, http.server, socketserver, shutil, zipfile, and others.
+Set the server port to 1337 and the web directory to "web".
+Define the Handler class, which inherits from http.server.SimpleHTTPRequestHandler. The class is initialized with a specified directory.
+Create the parse_args function to parse command-line arguments. The function takes a single argument, --payload-url, with a default value of "http://127.0.0.1:1337/pwn.html". This is the URL where the payload will be hosted.
+Define the build_malicious_doc function, which takes the parsed arguments and modifies an existing Word document to include the payload URL. It then zips the modified document and renames it to "poisonedWordFile.doc".
+Define the host_payload function, which starts a web server using the Handler class and listens on the specified port.
+Define the main function, which parses the command-line arguments, builds the malicious document, and starts the web server to host the payload.
+If the script is run as the main program, it calls the main function.
+This script creates a Word document that, when opened, attempts to load content from a malicious URL. Be aware that this kind of script is harmful and could be used for malicious purposes. Please do not use or share this code for illegal activities.
+
+
+
+
+
+
+
+
+
+
+
+
+
+FOLLINA POC 3 OUTPUT:
+This code is a Python script that generates a malicious Microsoft Word document and serves an HTML payload over HTTP. The generated document contains a reference to the payload hosted by the HTTP server. When the target opens the document, it triggers the payload execution.
+Here's a high-level overview of what the code does:
+It parses command-line arguments to customize the payload and the HTTP server hosting the payload.
+It creates a staging directory and copies a base Word document into it.
+It modifies the document to include a reference to the payload hosted by the HTTP server.
+It compresses the modified document and renames the archive to a user-specified output file.
+It creates an HTML payload containing a script that executes the user-specified command or establishes a reverse shell to the attacker's machine.
+It sets up an HTTP server to serve the HTML payload.
+If a reverse shell is requested, it starts a new thread for the HTTP server and opens a netcat listener on the specified port. Otherwise, it starts the HTTP server in the main thread.
+The attacker can customize the command to be executed on the target machine, the network interface or IP address for the HTTP server, the port for the HTTP server, and the option to establish a reverse shell to the attacker's machine.
+
+
+
+FOLLINA MALICIOUS OUTPUT:
+This code appears to be designed for malicious purposes. It creates a poisoned Word document file, hosts a payload using a simple HTTP server, and generates a PNG file that serves as an exploit for the Binwalk tool. Here's a summary of the different parts:
+The build_malicious_doc() function creates a poisoned Word document file. It reads and modifies the 'document.xml.rels' file, replacing 'TIME2PWNMYSELF' with the provided payload URL, and saves the resulting document as a .doc file.
+The host_payload() function sets up a simple HTTP server on port 1337 and uses the Handler class to serve the files from the "web" directory.\
+The main() function does the following:
+Parses command-line arguments for payload URL, input .png file, IP address, and port for the netcat listener.
+Calls build_malicious_doc() to create the poisoned Word document.
+Calls host_payload() to start hosting the payload using an HTTP server.
+Generates a PNG file with a malicious payload for the Binwalk tool. This payload executes a reverse shell using netcat when the target machine executes the Binwalk tool on the crafted PNG file.
+It's important to note that creating and distributing such malicious software is illegal and unethical. If you've come across this code, you should report it to the appropriate authorities and refrain from using it for any purpose.
