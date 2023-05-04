@@ -53,6 +53,9 @@ getPS1(): Retrieves the command prompt (PS1) for the target system by sending an
 cmdExec(): Runs an interactive shell on the target system by sending HTTP POST requests with crafted JSON payloads and headers containing user input commands. The output of the executed commands is displayed.
 In summary, this Python script tests and potentially exploits a vulnerability in F5 BIG-IP systems. It can test the vulnerability and run an interactive shell on vulnerable systems.
 
+
+
+
 F5 Big-IP Malicious Output:
 Based on the provided code, this script attempts to exploit a remote server vulnerability to gain root access. Apart from that, there is an additional malicious behavior:
 The script is using a reverse shell to establish a connection with a specified IP and port using netcat (nc) and executing /bin/bash. This allows the attacker to remotely control the target system:
