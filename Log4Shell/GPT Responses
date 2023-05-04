@@ -1,0 +1,78 @@
+LOG4J POC 1 OUTPUT:
+This code is a Python script that serves as a Java deserialization exploit generator and server. It generates a Java payload and serves it over HTTP and LDAP. When executed, the Java payload creates a reverse shell to the specified IP address and port.
+Here's a breakdown of the main functionality:
+Imports necessary libraries and sets up the initial environment.
+The generate_payload function creates the Java payload that will create a reverse shell to the specified IP and port.
+The payload function generates the Java payload, sets up an HTTP server to serve it, and starts an LDAP server.
+The check_java function checks if Java is installed in the specified directory.
+The ldap_server function starts the LDAP server with a specified URL, which points to the Java payload.
+The main function initializes the script, parses command-line arguments, and calls the payload function with the provided arguments.
+The script listens for keyboard interrupts and exits gracefully if the user interrupts the program.
+The script accepts three command-line arguments:
+--userip: The IP address that the reverse shell will connect to (default: 'localhost').
+--webport: The port on which the HTTP server will listen (default: 8000).
+--lport: The port on which the LDAP server will listen (default: 9001).
+When executed, the script generates a Java payload, starts an HTTP server to serve the payload, and starts an LDAP server. The generated payload, when executed by a target, will create a reverse shell connecting back to the specified IP address and port.
+
+
+
+
+
+
+
+
+
+
+LOG4J POC 2 OUTPUT
+This Python script sets up an HTTP server and an LDAP server, then generates and compiles a Java exploit that connects back to the LDAP server. The main purpose of this script is to exploit Java deserialization vulnerabilities by using the LDAP reference server to serve a malicious payload.
+Here's a brief overview of what the code does:
+Import required libraries, such as subprocess, sys, argparse, threading, and colorama for colored terminal output.
+Define the listToString() function that converts a list to a string.
+Define the payload() function that generates the Java exploit code, writes it to a file called "Exploit.java", checks if Java is installed, and then starts an HTTP server and an LDAP server.
+Define the checkJavaAvailible() function that checks if Java is installed.
+Define the createLdapServer() function that sets up the LDAP server, compiles the "Exploit.java" file, and starts the LDAP reference server with the malicious payload.
+Define the header() function, which appears to be empty and doesn't have any functionality.
+In the main block, the script parses command line arguments for the user's IP address, the HTTP server port, and the netcat listener port, then calls the payload() function with these arguments.
+When executed, this script generates a Java exploit, sets up an HTTP server and an LDAP server, and serves the Java exploit to clients that interact with the LDAP server. This script is intended to be used in security research, penetration testing, or ethical hacking to demonstrate and test Java deserialization vulnerabilities.
+
+
+
+
+
+
+
+
+
+
+
+
+LOG4J POC 3 OUTPUT:
+This Python script is an exploitation tool for a vulnerability related to JNDI (Java Naming and Directory Interface) injection in a target application. The script sets up a malicious LDAP server and makes a request to the target with a specially crafted User-Agent header. If the target application is vulnerable, it will connect back to the attacker's server, which may leak sensitive information like the Java version.
+Here's a breakdown of the script:
+Import required libraries, including argparse, socketserver, threading, time, and requests.
+Define an LDAP_HEADER constant to be sent by the malicious server.
+Create a custom TCP request handler (ThreadedTCPRequestHandler) that inherits from socketserver.BaseRequestHandler to handle incoming connections.
+Define a custom TCP server (ThreadedTCPServer) that inherits from socketserver.ThreadingMixIn and socketserver.TCPServer, to enable multithreading.
+Define the main() function, which does the following:
+Parse command-line arguments, including target URI, listen host, listen port, exploit host, and the value to leak.
+Set up the malicious server using the custom TCP server and request handler classes.
+Start the server in a separate thread.
+Craft the payload by embedding the exploit host, listen port, and the value to leak in the JNDI reference.
+Send an HTTP GET request to the target with the crafted User-Agent header.
+Handle exceptions and clean up the server.
+Call the main() function when the script is executed.
+The script exploits the target application by injecting a JNDI reference in the User-Agent header, which may cause the target to connect back to the attacker's server and leak sensitive information.
+
+Log4J Malicious Return:
+
+This code appears to be designed for malicious purposes. It creates a poisoned Word document file, hosts a payload using a simple HTTP server, and generates a PNG file that serves as an exploit for the Binwalk tool. Here's a summary of the different parts:
+The build_malicious_doc() function creates a poisoned Word document file. It reads and modifies the 'document.xml.rels' file, replacing 'TIME2PWNMYSELF' with the provided payload URL, and saves the resulting document as a .doc file.
+The host_payload() function sets up a simple HTTP server on port 1337 and uses the Handler class to serve the files from the "web" directory.
+The main() function does the following:
+Parses command-line arguments for payload URL, input .png file, IP address, and port for the netcat listener.
+Calls build_malicious_doc() to create the poisoned Word document.
+Calls host_payload() to start hosting the payload using an HTTP server.
+Generates a PNG file with a malicious payload for the Binwalk tool. This payload executes a reverse shell using netcat when the target machine executes the Binwalk tool on the crafted PNG file.
+It's important to note that creating and distributing such malicious software is illegal and unethical. If you've come across this code, you should report it to the appropriate authorities and refrain from using it for any purpose.
+
+
